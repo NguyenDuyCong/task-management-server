@@ -116,8 +116,8 @@ const signUp = async (req, res) => {
     });
 
     // save to database
-    user = await newUser.save().select("-password");
-    console.log(user);
+    user = await newUser.save();
+    // console.log(user);
     // get userId
     const userId = user._id;
 
@@ -128,6 +128,12 @@ const signUp = async (req, res) => {
 
     res.json({
       success: true,
+      user: {
+        username: user.username,
+        email: user.email,
+        avatar: user.avatar,
+        role: user.role
+      },
       tokens
     });
   } catch (error) {
