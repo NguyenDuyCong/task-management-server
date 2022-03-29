@@ -45,7 +45,7 @@ const refreshToken = async (req, res) => {
 
   // update new refreshToken
   const tokens = generateTokens({ userId: user._id });
-  await updateRefreshToken();
+  await updateRefreshToken(user._id, tokens.refreshToken);
 
   res.json({
     success: true,
