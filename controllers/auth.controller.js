@@ -25,7 +25,7 @@ const updateRefreshToken = async (userId, refreshToken) => {
 
 // create new accessToken by refreshToken when accessToken is expired
 const refreshToken = async (req, res) => {
-  const refreshToken = req.refreshToken;
+  const { refreshToken } = req.body;
 
   if (!refreshToken) {
     return res.status(400).json({
