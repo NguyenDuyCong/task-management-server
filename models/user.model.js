@@ -25,6 +25,11 @@ const UserSchema = new Schema({
     type: String,
     default: ""
   },
+  isVerify: {
+    type: Boolean,
+    default: false
+  },
+  verifyCode: String,
   refreshToken: {
     type: String,
     default: ""

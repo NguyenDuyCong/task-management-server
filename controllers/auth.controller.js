@@ -1,8 +1,11 @@
 const argon2 = require("argon2");
+const crypto = require("crypto");
 const { json } = require("express");
 const jwt = require("jsonwebtoken");
+
 const { appConfig } = require("../config/config");
 const User = require("../models/user.model");
+const { sendEmail } = require("./email.controller");
 
 const generateTokens = (payload) => {
   const { userId } = payload;
@@ -66,10 +69,11 @@ const baseAuth = async (req, res) => {
   }
 
   res.json({
-    message: true,
+    success: true,
     user: {
       username: user.username,
       email: user.email,
+      isVerify: user.isVerify,
       avatar: user.avatar,
       role: user.role
     }
@@ -79,7 +83,7 @@ const baseAuth = async (req, res) => {
 // Register new user
 const signUp = async (req, res) => {
   const { email, username, password } = req.body;
-  console.log({ username, password });
+  // console.log({ username, password });
 
   // check validation
   if (!username || !password || !email) {
@@ -109,15 +113,23 @@ const signUp = async (req, res) => {
     }
     // create new user
     const hashedPassword = await argon2.hash(password);
+
+    // create hasd md5 verifyCode
+    const verifyCodeString = `${email}${new Date().getTime()}`;
+    const verifyCode = crypto
+      .createHash("md5")
+      .update(verifyCodeString)
+      .digest("hex");
     const newUser = new User({
       username,
       password: hashedPassword,
-      email
+      email,
+      verifyCode
     });
 
     // save to database
     user = await newUser.save();
-    // console.log(user);
+
     // get userId
     const userId = user._id;
 
@@ -126,11 +138,14 @@ const signUp = async (req, res) => {
     // add refreshtoken
     await updateRefreshToken(userId, tokens.refreshToken);
 
+    await sendEmail(username, email, verifyCode);
+
     res.json({
       success: true,
       user: {
         username: user.username,
         email: user.email,
+        isVeriry: user.isVerify,
         avatar: user.avatar,
         role: user.role
       },
@@ -179,6 +194,7 @@ const signIn = async (req, res) => {
     user: {
       username: user.username,
       email: user.email,
+      isVerify: user.isVerify,
       avatar: user.avatar,
       role: user.role
     },
