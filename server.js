@@ -4,6 +4,7 @@ const app = express();
 
 require("dotenv").config();
 const authRoute = require("./routes/auth.route");
+const emailRoute = require("./routes/email.route");
 const connectDB = require("./utils/connection");
 
 app.use(cors());
@@ -17,6 +18,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoute);
+
+app.use("/api/email", emailRoute);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
