@@ -3,9 +3,9 @@ const cors = require("cors");
 const app = express();
 
 require("dotenv").config();
-const authRoute = require("./routes/auth.route");
-const emailRoute = require("./routes/email.route");
+const routes = require("./routes/v1/index");
 const connectDB = require("./utils/connection");
+const { appConfig } = require("./config/config");
 
 app.use(cors());
 app.use(express.json());
@@ -17,9 +17,7 @@ app.get("/", (req, res) => {
   res.send("hello world");
 });
 
-app.use("/api/auth", authRoute);
-
-app.use("/api/email", emailRoute);
+app.use(`/api/${appConfig.API_VERSION}`, routes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

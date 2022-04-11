@@ -5,7 +5,7 @@
 ```js
 // request:
 method: POST
-/api/auth/signup
+/api/v1/auth/signup
 
 {
   "username": "test",
@@ -36,7 +36,7 @@ method: POST
 ```js
 // request:
 method: POST
-/api/auth/signin
+/api/v1/auth/signin
 
 {
   "email": "abc@abc.com",
@@ -66,7 +66,7 @@ method: POST
 ```js
 // request:
 method: POST
-/api/auth/signout
+/api/v1/auth/signout
 Authorization: Bearer abcxyz(accessToken)
 ----------------------------------------
 // response:
@@ -81,7 +81,7 @@ Authorization: Bearer abcxyz(accessToken)
 ```js
 // request:
 method: POST
-/api/auth
+/api/v1/auth
 Authorization: Bearer accessToken
 ----------------------------------------
 // response:
@@ -102,7 +102,7 @@ Authorization: Bearer accessToken
 ```js
 // request:
 method: POST
-/api/auth/token
+/api/v1/auth/token
 
 {
   "refreshToken": refreshToken
@@ -123,7 +123,7 @@ method: POST
 ```js
 // request:
 method: POST
-/api/email/confirm
+/api/v1/email/confirm
 {
   "username": "test",
   "email": "abc@abc.com"
@@ -141,7 +141,7 @@ method: POST
 ```js
 // request:
 method: GET
-/api/email/confirm/:hash
+/api/v1/email/confirm/:hash
 ----------------------------------------
 // response:
 {

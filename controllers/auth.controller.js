@@ -97,7 +97,7 @@ const signUp = async (req, res) => {
     // check existing user
     let user = await User.findOne({ username }).select("-password");
     if (user) {
-      return res.status(400).json({
+      return res.status(422).json({
         success: false,
         message: "username already existed!"
       });
@@ -106,7 +106,7 @@ const signUp = async (req, res) => {
     // check existing email
     user = await User.findOne({ email }).select("-password");
     if (user) {
-      return res.status(400).json({
+      return res.status(422).json({
         success: false,
         message: "email already existed!"
       });
@@ -162,10 +162,10 @@ const signUp = async (req, res) => {
 
 // sign in
 const signIn = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   // check user
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ email });
   if (!user) {
     return res.status(400).json({
       success: false,

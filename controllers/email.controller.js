@@ -14,7 +14,7 @@ let transporter = nodemailer.createTransport({
 });
 
 const sendEmail = async (username, email, verifyCode) => {
-  let verifyUrl = `${appConfig.APP_URL}/api/email/confirm/${verifyCode}`;
+  let verifyUrl = `${appConfig.API_URL}/${appConfig.API_VERSION}/email/confirm/${verifyCode}`;
   try {
     await transporter.sendMail({
       from: `${emailConfig.EMAIL_USER}`,
