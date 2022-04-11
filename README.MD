@@ -1,5 +1,7 @@
 ### API docs
 
+#### check docs in site: https://ndc-task-management-server.herokuapp.com/api/v1/docs
+
 - signup
 
 ```js
@@ -141,7 +143,7 @@ method: POST
 ```js
 // request:
 method: GET
-/api/v1/email/confirm/:hash
+/api/v1/email/confirm/:code
 ----------------------------------------
 // response:
 {

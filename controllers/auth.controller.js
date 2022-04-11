@@ -38,7 +38,8 @@ const refreshToken = async (req, res) => {
   }
 
   // find user by refreshToken
-  const user = User.findOne({ refreshToken });
+  const user = await User.findOne({ refreshToken });
+  console.log(user);
   if (!user) {
     return res.status(403).json({
       success: false,
@@ -208,8 +209,6 @@ const signOut = async (req, res) => {
     { _id: req.userId },
     { refreshToken: "" }
   ).select("-password");
-
-  console.log(user);
 
   res.json({
     success: true,

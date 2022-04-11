@@ -39,15 +39,15 @@ const genNewEmailVerification = async (req, res) => {
     .digest("hex");
 
   try {
-    const user = await User.findOne({ email }).select("-password");
-    if (!user) {
-      res.status(400).json({
-        success: false,
-        message: "user does not exist"
-      });
-    }
+    // const user = await User.findOne({ email }).select("-password");
+    // if (!user) {
+    //   res.status(400).json({
+    //     success: false,
+    //     message: "user does not exist"
+    //   });
+    // }
 
-    await User.findByIdAndUpdate(user._id, { verifyCode });
+    await User.findByIdAndUpdate(req.userId, { verifyCode });
 
     await sendEmail(username, email, verifyCode);
 
@@ -66,10 +66,10 @@ const genNewEmailVerification = async (req, res) => {
 
 // verify email
 const verifyEmail = async (req, res) => {
-  let hash = req.params.hash;
+  let code = req.params.code;
 
   try {
-    let user = await User.findOne({ verifyCode: hash }).select("-password");
+    let user = await User.findOne({ verifyCode: code }).select("-password");
 
     if (!user) {
       res.status(400).json({

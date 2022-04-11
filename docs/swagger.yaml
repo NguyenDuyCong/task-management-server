@@ -1,0 +1,48 @@
+components:
+  schemas:
+    UserInfo:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        isVerify:
+          type: boolean
+        avatar: 
+          type: string
+        role: 
+          type: string
+
+    Tokens:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+
+    StatusInfo:
+      type: object
+      properties:
+        success: 
+          type: boolean
+        message: 
+          type: string
+  
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  
+  responses:
+    UserResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        user:
+          $ref: '#/components/schemas/UserInfo'
+        tokens:
+          $ref: '#/components/schemas/Tokens'
